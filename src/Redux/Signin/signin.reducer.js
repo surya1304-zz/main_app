@@ -2,7 +2,10 @@ import { actionTypes } from './signin.actions.type'
 
 const INITIAL_STATE = {
     username : "",
-    password : ""
+    password : "",
+    fname : "",
+    role : "",
+    plants : ""
 };
 
 const SigninReducer = (state=INITIAL_STATE, action) => {
@@ -16,6 +19,13 @@ const SigninReducer = (state=INITIAL_STATE, action) => {
             return {
                 ...state,
                 password : action.payload,
+            };
+        case actionTypes.RESPONSE_RECEIVED:
+            return{
+                ...state,
+                fname : action.payload.fname,
+                role : action.payload.role,
+                plants :action.payload.plants,
             };
         default:
             return state;

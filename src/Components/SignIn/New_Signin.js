@@ -19,10 +19,10 @@ import './css/main.css';
 import './css/util.css';
 import './js/main';
 
-import { setUsername,setPassword } from '../../Redux/Signin/signin.actions';
+import { setUsername,setPassword,setCredentials } from '../../Redux/Signin/signin.actions';
 
 
-const NewSignIn = ({ username, password, setUsername, setPassword }) => {
+const NewSignIn = ({ username, password, setUsername, setPassword, setCredentials }) => {
 
     function onEmailChange(e) {
         setUsername({
@@ -54,7 +54,14 @@ const NewSignIn = ({ username, password, setUsername, setPassword }) => {
                 if (data['status'] === 'success') {
                     sessionStorage.setItem('token', data['token']);
                     let {fname, role, plants} = data['body'][0];
-                    console.log(fname + " " + role + " " + plants);
+                    setCredentials({
+                        fname : fname,
+                        role : role,
+                        plants : plants,
+                    });
+                    sessionStorage.setItem('fname', fname);
+                    sessionStorage.setItem('role', role);
+                    sessionStorage.setItem('plants', plants);
                 } else {
                     alert("Enter the Correct Credentials!");
                 }
@@ -110,6 +117,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     setUsername : username => dispatch(setUsername(username)),
     setPassword : password => dispatch(setPassword(password)),
+    setCredentials : ({fname,role,plants}) => dispatch(setCredentials({fname,role,plants})),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewSignIn);
