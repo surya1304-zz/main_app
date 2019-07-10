@@ -22,7 +22,7 @@ import './js/main';
 import { setUsername,setPassword } from '../../Redux/Signin/signin.actions';
 
 
-const NewSignIn = ({ username,setUsername,setPassword }) => {
+const NewSignIn = ({ username, password, setUsername, setPassword }) => {
 
     function onEmailChange(e) {
         setUsername({
@@ -35,7 +35,33 @@ const NewSignIn = ({ username,setUsername,setPassword }) => {
             password: e.target.value,
         })
     }
-        return (
+
+    function onSubmitClicked(e) {
+        e.preventDefault();
+        fetch('http://localhost:3000/signin',
+            {
+                method: "post",
+                headers: {
+                    "Content-Type": 'application/json',
+                },
+                body: JSON.stringify({
+                    username: username,
+                    password: password
+                })
+            })
+            .then(resp => resp.json())
+            .then(data => {
+                if (data['status'] === 'success') {
+                    sessionStorage.setItem('token', data['token']);
+                    let {fname, role, plants} = data['body'][0];
+                    console.log(fname + " " + role + " " + plants);
+                } else {
+                    alert("Enter the Correct Credentials!");
+                }
+            });
+    }
+
+    return (
             <div className="limiter">
                 <div className="container-login100">
                     <div className="wrap-login100">
@@ -65,7 +91,7 @@ const NewSignIn = ({ username,setUsername,setPassword }) => {
                             </div>
 
                             <div className="container-login100-form-btn">
-                                <button onClick={this.onSubmitClicked} className="login100-form-btn">
+                                <button onClick={onSubmitClicked} className="login100-form-btn">
                                     Login
                                 </button>
                             </div>
@@ -74,7 +100,6 @@ const NewSignIn = ({ username,setUsername,setPassword }) => {
                 </div>
             </div>
         );
-
 };
 
 const mapStateToProps = state => ({
@@ -84,33 +109,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     setUsername : username => dispatch(setUsername(username)),
-    setPassword : password => dispatch(setPassword(password))
+    setPassword : password => dispatch(setPassword(password)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps())(NewSignIn);
-
-// onSubmitClicked = (e) => {
-//     e.preventDefault();
-//     fetch('http://localhost:3000/signin',
-//         {
-//             method: "post",
-//             headers: {
-//                 "Content-Type": 'application/json',
-//             },
-//             body: JSON.stringify({
-//                 username: this.state.UsernameChange,
-//                 password: this.state.passwordChange
-//             })
-//         })
-//         .then(resp => resp.json())
-//         .then(data => {
-//             if (data['status'] === 'success') {
-//                 sessionStorage.setItem('token', data['token']);
-//                 let {fname, role, plants} = data['body'][0];
-//                 this.props.handler(fname, role, plants);
-//                 this.props.history.push('/plantstats');
-//             } else {
-//                 alert("Enter the Correct Credentials!");
-//             }
-//         });
-// }
+export default connect(mapStateToProps, mapDispatchToProps)(NewSignIn);
