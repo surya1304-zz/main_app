@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
+import {Route} from 'react-router-dom';
+import NewSignIn from '../Components/SignIn/New_Signin';
 import './App.css';
-import { BrowserRouter } from "react-router-dom";
 
-class App extends Component {
-    render() {
+const App = () => {
         return (
-            <div className="App">
-                Hello World
-            </div>
+            <Route exact path='/' component={NewSignIn}/>
         );
-    }
-}
+};
 
 export default App;
