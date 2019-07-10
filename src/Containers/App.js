@@ -1,11 +1,13 @@
-import React, { Component } from 'react';
-import {Route} from 'react-router-dom';
+import React from 'react';
+import {Switch,Route} from 'react-router-dom';
 import NewSignIn from '../Components/SignIn/New_Signin';
 import './App.css';
 
 const App = () => {
         return (
-            <Route exact path='/' component={NewSignIn}/>
+            <Switch>
+                <Route exact path='/' component={NewSignIn}/>
+            </Switch>
         );
 };
 
