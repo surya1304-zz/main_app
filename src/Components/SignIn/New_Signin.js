@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import 'font-awesome/css/font-awesome.css';
-import 'animate';
 import '../../../node_modules/animate.css/animate.css';
 import 'hamburgers';
 import 'select2/dist/css/select2.css';
