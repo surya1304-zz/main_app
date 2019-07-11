@@ -3,9 +3,9 @@ import { actionTypes } from './signin.actions.type'
 const INITIAL_STATE = {
     username : "",
     password : "",
-    fname : "",
-    role : "",
-    plants : ""
+    fname : "Shubham",
+    role : "admin",
+    plants : "orai&kothagadi&parigi&rohini&peerampalli",
 };
 
 const SigninReducer = (state=INITIAL_STATE, action) => {

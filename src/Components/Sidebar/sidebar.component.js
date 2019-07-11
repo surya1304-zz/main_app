@@ -1,21 +1,21 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import AppBar from '@material-ui/core/AppBar';
+import { connect } from "react-redux";
+import clsx from 'clsx';
+import { makeStyles } from '@material-ui/core/styles';
+import Drawer from '@material-ui/core/Drawer';
+import Toolbar from '@material-ui/core/Toolbar';
+import List from '@material-ui/core/List';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
-import Drawer from '@material-ui/core/Drawer';
-import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import List from '@material-ui/core/List';
+import MenuIcon from '@material-ui/icons/Menu';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import MailIcon from '@material-ui/icons/Mail';
-import MenuIcon from '@material-ui/icons/Menu';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import Avatar from '@material-ui/core/Avatar';
+import {blue} from "@material-ui/core/colors";
+import {Person} from '@material-ui/icons';
+import { withRouter } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -23,121 +23,115 @@ const useStyles = makeStyles(theme => ({
     root: {
         display: 'flex',
     },
-    drawer: {
-        [theme.breakpoints.up('sm')]: {
-            width: drawerWidth,
-            flexShrink: 0,
-        },
-    },
-    appBar: {
+    appBarShift: {
         marginLeft: drawerWidth,
-        [theme.breakpoints.up('sm')]: {
-            width: `calc(100% - ${drawerWidth}px)`,
-        },
+        width: `calc(100% - ${drawerWidth}px)`,
+        transition: theme.transitions.create(['width', 'margin'], {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
     },
     menuButton: {
-        marginRight: theme.spacing(2),
-        [theme.breakpoints.up('sm')]: {
-            display: 'none',
-        },
+        marginRight: 36,
     },
-    toolbar: theme.mixins.toolbar,
-    drawerPaper: {
+    hide: {
+        display: 'none',
+    },
+    drawer: {
         width: drawerWidth,
+        flexShrink: 0,
+        whiteSpace: 'nowrap',
+    },
+    drawerOpen: {
+        width: drawerWidth,
+        transition: theme.transitions.create('width', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
+    },
+    drawerClose: {
+        transition: theme.transitions.create('width', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+        overflowX: 'hidden',
+        width: theme.spacing(7) + 1,
+        [theme.breakpoints.up('sm')]: {
+            width: theme.spacing(9) + 1,
+        },
     },
     content: {
         flexGrow: 1,
         padding: theme.spacing(3),
     },
+    orangeAvatar: {
+        color: '#fff',
+        backgroundColor: blue[900],
+    },
 }));
 
-export default function ResponsiveDrawer(props) {
-    const { container } = props;
+function MiniDrawer({ plants,fname,role,history }) {
     const classes = useStyles();
-    const theme = useTheme();
-    const [mobileOpen, setMobileOpen] = React.useState(false);
+    const [open, setOpen] = React.useState(false);
 
-    function handleDrawerToggle() {
-        setMobileOpen(!mobileOpen);
+    function toggleDrawerOpen() {
+        setOpen(!open);
     }
-
-    const drawer = (
-        <div>
-            <div className={classes.toolbar} />
-            <Divider />
-            <List>
-                {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                    <ListItem button key={text}>
-                        <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                        <ListItemText primary={text} />
-                    </ListItem>
-                ))}
-            </List>
-            <Divider />
-            <List>
-                {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                    <ListItem button key={text}>
-                        <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                        <ListItemText primary={text} />
-                    </ListItem>
-                ))}
-            </List>
-        </div>
-    );
+    console.log(fname + " " + role);
 
     return (
         <div className={classes.root}>
             <CssBaseline />
-            <AppBar position="fixed" className={classes.appBar}>
+            <Drawer
+                variant="permanent"
+                className={clsx(classes.drawer, {
+                    [classes.drawerOpen]: open,
+                    [classes.drawerClose]: !open,
+                })}
+                classes={{
+                    paper: clsx({
+                        [classes.drawerOpen]: open,
+                        [classes.drawerClose]: !open,
+                    }),
+                }}
+                open={open}
+            >
                 <Toolbar>
                     <IconButton
                         color="inherit"
                         aria-label="Open drawer"
+                        onClick={toggleDrawerOpen}
                         edge="start"
-                        onClick={handleDrawerToggle}
-                        className={classes.menuButton}
+                        className={clsx(classes.menuButton)}
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" noWrap>
-                        Responsive drawer
-                    </Typography>
                 </Toolbar>
-            </AppBar>
-            <nav className={classes.drawer} aria-label="Mailbox folders">
-                <Hidden smUp implementation="css">
-                    <Drawer
-                        container={container}
-                        variant="temporary"
-                        anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-                        open={mobileOpen}
-                        onClose={handleDrawerToggle}
-                        classes={{
-                            paper: classes.drawerPaper,
-                        }}
-                        ModalProps={{
-                            keepMounted: true,
-                        }}
-                    >
-                        {drawer}
-                    </Drawer>
-                </Hidden>
-                <Hidden xsDown implementation="css">
-                    <Drawer
-                        classes={{
-                            paper: classes.drawerPaper,
-                        }}
-                        variant="permanent"
-                        open
-                    >
-                        {drawer}
-                    </Drawer>
-                </Hidden>
-            </nav>
+                <Divider />
+                <List>
+                    {plants.split('&').map((text, index) => (
+                        <ListItem button key={index} onClick={()=>history.push(`/plants/${text}`)}>
+                            <ListItemIcon><Avatar className={classes.orangeAvatar}>{text[0].toLocaleUpperCase()}</Avatar></ListItemIcon>
+                            <ListItemText primary={text} />
+                        </ListItem>
+                    ))}
+                </List>
+                <Divider />
+                <List>
+                    <ListItem button key={fname}>
+                        <ListItemIcon><Person color='primary' fontSize='large'/></ListItemIcon>
+                        <ListItemText primary={fname} />
+                    </ListItem>
+                </List>
+            </Drawer>
         </div>
     );
 }
 
-ResponsiveDrawer.propTypes = {
-    container: PropTypes.object,
-};
+const mapStateToProps = state => ({
+    plants : state.signin.plants,
+    fname : state.signin.fname,
+    role : state.signin.role,
+});
+
+export default withRouter(connect(mapStateToProps)(MiniDrawer));
