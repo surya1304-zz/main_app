@@ -1,0 +1,9 @@
+.menu{
+    padding-top: 60px;
+    padding-left: 60px;
+}
+
+.tiles {
+    display : grid;
+    grid-template-columns: 2fr 2fr 2fr;
+}

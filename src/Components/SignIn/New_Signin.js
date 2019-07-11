@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from "react-redux";
+import { withRouter } from 'react-router-dom';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
@@ -22,7 +23,7 @@ import './js/main';
 import { setUsername,setPassword,setCredentials } from '../../Redux/Signin/signin.actions';
 
 
-const NewSignIn = ({ username, password, setUsername, setPassword, setCredentials }) => {
+const NewSignIn = ({ username, password, setUsername, setPassword, setCredentials, history }) => {
 
     function onEmailChange(e) {
         setUsername({
@@ -62,6 +63,7 @@ const NewSignIn = ({ username, password, setUsername, setPassword, setCredential
                     sessionStorage.setItem('fname', fname);
                     sessionStorage.setItem('role', role);
                     sessionStorage.setItem('plants', plants);
+                    history.push(`/plants/${plants.split('&')[0]}`);
                 } else {
                     alert("Enter the Correct Credentials!");
                 }
@@ -120,4 +122,4 @@ const mapDispatchToProps = dispatch => ({
     setCredentials : ({fname,role,plants}) => dispatch(setCredentials({fname,role,plants})),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(NewSignIn);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NewSignIn));
