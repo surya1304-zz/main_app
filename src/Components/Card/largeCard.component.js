@@ -7,13 +7,13 @@ import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import {
-    BarChart,
+    LineChart,
     CartesianGrid,
     XAxis,
     YAxis,
     Tooltip,
     Legend,
-    Bar
+    Line
 } from "recharts";
 
 const useStyles = makeStyles(theme => ({
@@ -131,15 +131,15 @@ const LargeTiles = ({ first,second }) => {
                 subheader="2019-07-11"
             />
             <div className={classes.linechart}>
-                <BarChart width={1500} height={400} data={data}>
+                <LineChart width={1500} height={400} data={data}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="name" />
                     <YAxis />
                     <Tooltip />
                     <Legend />
-                    <Bar dataKey="uv" fill="#8884d8" />
-                    <Bar dataKey="pv" fill="#82ca9d" />
-                </BarChart>
+                    <Line dataKey="uv" fill="#8884d8" />
+                    <Line dataKey="pv" fill="#82ca9d" />
+                </LineChart>
             </div>
             <CardContent />
         </Card>
