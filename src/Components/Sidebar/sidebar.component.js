@@ -88,7 +88,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-function MiniDrawer({ plants,fname,role,history,toggleOpen }) {
+function MiniDrawer({ plants,fname,role,history,toggleOpen,sidebarhandler,sidebarhandler1,match }) {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
 
@@ -99,9 +99,11 @@ function MiniDrawer({ plants,fname,role,history,toggleOpen }) {
             open : true,
         });
         setOpen(!open);
+        if (!open)
+            sidebarhandler();
+        else
+            sidebarhandler1();
     }
-
-    console.log(open);
 
     return (
         <div className={classes.root}>
@@ -125,7 +127,7 @@ function MiniDrawer({ plants,fname,role,history,toggleOpen }) {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" noWrap>
-                        {plants.split('&')[0].toUpperCase()}
+                        {match.params.plantname.toUpperCase()}
                     </Typography>
                 </Toolbar>
             </AppBar>
