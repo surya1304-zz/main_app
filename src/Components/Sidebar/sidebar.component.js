@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{ useEffect } from 'react';
 import { connect } from "react-redux";
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
@@ -15,7 +15,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 import {blue} from "@material-ui/core/colors";
 import {Person,AccessibilityNew,KeyboardBackspace} from '@material-ui/icons';
-import { withRouter } from 'react-router-dom';
+import { withRouter,NavLink } from 'react-router-dom';
 import AppBar from "@material-ui/core/AppBar";
 import Typography from "@material-ui/core/Typography";
 
@@ -86,9 +86,14 @@ const useStyles = makeStyles(theme => ({
         color: '#fff',
         backgroundColor: blue[900],
     },
+    link : {
+        fontSize : 20,
+        marginLeft: 20,
+        color: '#fff',
+    }
 }));
 
-function MiniDrawer({ plants,fname,role,history,toggleOpen,sidebarhandler,sidebarhandler1,match }) {
+function MiniDrawer({ location,match,plants,fname,role,history,toggleOpen,sidebarhandler,sidebarhandler1 }) {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
 
@@ -98,12 +103,20 @@ function MiniDrawer({ plants,fname,role,history,toggleOpen,sidebarhandler,sideba
         }) : toggleOpen({
             open : true,
         });
+        console.log(history);
+        console.log(match);
+        console.log(location);
         setOpen(!open);
         if (!open)
             sidebarhandler();
         else
             sidebarhandler1();
     }
+    let type = match.url.split('/')[2];
+    let plant = match.params.plantname;
+    let linkDay = `/plants/daily/${plant}`;
+    let linkMonth = `/plants/monthly/${plant}`;
+    let linkYear = `/plants/yearly/${plant}`;
 
     return (
         <div className={classes.root}>
@@ -127,8 +140,11 @@ function MiniDrawer({ plants,fname,role,history,toggleOpen,sidebarhandler,sideba
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" noWrap>
-                        {match.params.plantname.toUpperCase()}
+                        {plant.toUpperCase()}
                     </Typography>
+                    <NavLink className={classes.link} to={linkDay}>Daily</NavLink>
+                    <NavLink className={classes.link} to={linkMonth}>Monthly</NavLink>
+                    <NavLink className={classes.link} to={linkYear}>Yearly</NavLink>
                 </Toolbar>
             </AppBar>
             <Drawer
@@ -153,10 +169,11 @@ function MiniDrawer({ plants,fname,role,history,toggleOpen,sidebarhandler,sideba
                 <Divider />
                 <List>
                     {plants.split('&').map((text, index) => (
-                        <ListItem button key={index} onClick={()=>history.push(`/plants/${text}`)}>
-                            <ListItemIcon><Avatar className={classes.orangeAvatar}>{text[0]}</Avatar></ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItem>
+                        text === '' ? '' :
+                            <ListItem button key={index} onClick={()=>history.push(`/plants/${type}/${text}`)}>
+                                <ListItemIcon><Avatar className={classes.orangeAvatar}>{text[0]}</Avatar></ListItemIcon>
+                                <ListItemText primary={text} />
+                            </ListItem>
                     ))}
                 </List>
                 <Divider />

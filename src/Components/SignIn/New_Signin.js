@@ -39,7 +39,7 @@ const NewSignIn = ({ username, password, setUsername, setPassword, setCredential
 
     function onSubmitClicked(e) {
         e.preventDefault();
-        fetch('http://localhost:3000/signin',
+        fetch('http://localhost:3000/user/signin',
             {
                 method: "post",
                 headers: {
@@ -63,7 +63,7 @@ const NewSignIn = ({ username, password, setUsername, setPassword, setCredential
                     sessionStorage.setItem('fname', fname);
                     sessionStorage.setItem('role', role);
                     sessionStorage.setItem('plants', plants);
-                    history.push(`/plants/${plants.split('&')[0]}`);
+                    history.push(`/plants/daily/kothagadi`);
                 } else {
                     alert("Enter the Correct Credentials!");
                 }

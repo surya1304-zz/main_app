@@ -47,7 +47,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const LargeTileBars = ({ first,second }) => {
+const LargeTileBars = ({ first,data1,dataKey,dataKey1 }) => {
     const classes = useStyles();
 
     const [expanded, setExpanded] = React.useState(true);
@@ -56,87 +56,7 @@ const LargeTileBars = ({ first,second }) => {
         setExpanded(!expanded);
     }
 
-    const title = `${first} vs ${second}`;
-
-    const data = [
-        {
-            name: "Page A",
-            uv: 11500,
-            pv: 14000
-        },
-        {
-            name: "Page B",
-            uv: 3000,
-            pv: 1398,
-            amt: 2210
-        },
-        {
-            name: "Page C",
-            uv: 2000,
-            pv: 9800,
-            amt: 2290
-        },
-        {
-            name: "Page D",
-            uv: 2780,
-            pv: 3908,
-            amt: 2000
-        },
-        {
-            name: "Page E",
-            uv: 1890,
-            pv: 4800,
-            amt: 2181
-        },
-        {
-            name: "Page F",
-            uv: 2390,
-            pv: 3800,
-            amt: 2500
-        },
-        {
-            name: "Page G",
-            uv: 3490,
-            pv: 4300,
-            amt: 2100
-        },
-        {
-            name: "Page B",
-            uv: 3000,
-            pv: 1398,
-            amt: 2210
-        },
-        {
-            name: "Page C",
-            uv: 2000,
-            pv: 9800,
-            amt: 2290
-        },
-        {
-            name: "Page D",
-            uv: 2780,
-            pv: 3908,
-            amt: 2000
-        },
-        {
-            name: "Page E",
-            uv: 1890,
-            pv: 4800,
-            amt: 2181
-        },
-        {
-            name: "Page F",
-            uv: 2390,
-            pv: 3800,
-            amt: 2500
-        },
-        {
-            name: "Page G",
-            uv: 3490,
-            pv: 4300,
-            amt: 2100
-        }
-    ];
+    const title = first;
 
     return (
         <Card id="helloworld" className={classes.card}>
@@ -158,14 +78,13 @@ const LargeTileBars = ({ first,second }) => {
             />
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent className={classes.linechart}>
-                    <BarChart width={1500} height={400} data={data}>
+                    <BarChart width={1500} height={400} data={data1}>
                         <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="name" />
+                        <XAxis dataKey={dataKey} />
                         <YAxis />
                         <Tooltip />
                         <Legend />
-                        <Bar dataKey="uv" fill="#8884d8" />
-                        <Bar dataKey="pv" fill="#82ca9d" />
+                        <Bar dataKey={dataKey1} fill="#8884d8" />
                     </BarChart>
                 </CardContent>
             </Collapse>
