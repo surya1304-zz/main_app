@@ -14,3 +14,8 @@ export const setInvData = (Inv) => ({
     type : actionTypes.SET_INV,
     payload : Inv,
 });
+
+export const setKeys = (Keys) => ({
+    type: actionTypes.SET_KEYS,
+    payload : Keys,
+});

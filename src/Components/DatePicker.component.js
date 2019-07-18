@@ -1,5 +1,6 @@
 import 'date-fns';
 import React from 'react';
+import { connect } from "react-redux";
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import DateFnsUtils from '@date-io/date-fns';
@@ -8,6 +9,8 @@ import {
     KeyboardDatePicker,
 } from '@material-ui/pickers';
 
+import { setDate } from '../Redux/DatePicker/datepicker.actions';
+
 const useStyles = makeStyles({
     grid: {
         margin : 20,
@@ -15,14 +18,14 @@ const useStyles = makeStyles({
     },
 });
 
-export default function DatePicker() {
-    // The first commit of Material-UI
+const DatePicker = ({ setDate }) => {
     const [selectedDate, setSelectedDate] = React.useState(new Date());
 
     const classes = useStyles();
 
     function handleDateChange(date) {
         setSelectedDate(date);
+        setDate(date);
     }
 
     return (
@@ -41,4 +44,10 @@ export default function DatePicker() {
             </Grid>
         </MuiPickersUtilsProvider>
     );
-}
+};
+
+const mapDispatchToProps = dispatch => ({
+    setDate : date => dispatch(setDate(date)),
+});
+
+export default connect(null,mapDispatchToProps)(DatePicker);

@@ -1,4 +1,4 @@
-import React,{ useEffect } from 'react';
+import React from 'react';
 import { connect } from "react-redux";
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
@@ -142,7 +142,11 @@ function MiniDrawer({ location,match,plants,fname,role,history,toggleOpen,sideba
                     <Typography variant="h6" noWrap>
                         {plant.toUpperCase()}
                     </Typography>
-                    <NavLink className={classes.link} to={linkDay}>Daily</NavLink>
+                    <NavLink className={classes.link} to={linkDay} activeStyle={{
+                        fontWeight: "bold",
+                        fontSize : 20,
+                        color : '#D9D7DD'
+                    }}>Daily</NavLink>
                     <NavLink className={classes.link} to={linkMonth}>Monthly</NavLink>
                     <NavLink className={classes.link} to={linkYear}>Yearly</NavLink>
                 </Toolbar>
@@ -171,7 +175,7 @@ function MiniDrawer({ location,match,plants,fname,role,history,toggleOpen,sideba
                     {plants.split('&').map((text, index) => (
                         text === '' ? '' :
                             <ListItem button key={index} onClick={()=>history.push(`/plants/${type}/${text}`)}>
-                                <ListItemIcon><Avatar className={classes.orangeAvatar}>{text[0]}</Avatar></ListItemIcon>
+                                <ListItemIcon><Avatar className={classes.orangeAvatar}>{text[0].toUpperCase()}</Avatar></ListItemIcon>
                                 <ListItemText primary={text} />
                             </ListItem>
                     ))}

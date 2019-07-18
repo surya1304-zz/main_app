@@ -3,7 +3,8 @@ import { actionTypes } from "./graphs.actions.type";
 const INITIAL_STATE = {
     actual : '',
     est : '',
-    inv : ''
+    inv : '',
+    keys : ''
 };
 
 const GraphsReducer = (state=INITIAL_STATE,action) => {
@@ -11,17 +12,22 @@ const GraphsReducer = (state=INITIAL_STATE,action) => {
         case actionTypes.SET_ACTUAL:
             return {
                 ...state,
-                actual : JSON.stringify(action.payload)
+                actual : action.payload
             };
         case actionTypes.SET_ESTIMATED:
             return {
                 ...state,
-                actual : JSON.stringify(action.payload)
+                est : action.payload
             };
         case actionTypes.SET_INV:
             return {
                 ...state,
-                actual : JSON.stringify(action.payload)
+                inv : action.payload
+            };
+        case actionTypes.SET_KEYS:
+            return {
+                ...state,
+                keys : action.payload
             };
         default:
             return state;
